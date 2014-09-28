@@ -69,7 +69,11 @@ class Observer implements ObserverInterface
             $data = array_merge($this->data[$action], $data);
 
         foreach ($this->responders[$action] as $responder) {
-            $responder->respond($data, $event);
+            if ($responder instanceof ResponderInterface) {
+                $responder->respond($data, $event);
+            } elseif (is_callable($responder)) {
+                $responder($data, $event);
+            }
         }
     }
 
@@ -92,12 +96,15 @@ class Observer implements ObserverInterface
      * Assigns a responder to the given event action
      *
      * @param string|array $actions The event action(s) to assign the responder to
-     * @param \FlameCore\Observer\Responder\ResponderInterface $responder The responder to add
+     * @param \FlameCore\Observer\Responder\ResponderInterface|callable $responder The responder to add
      * @param array $data Optional data to store for all events of the given action(s)
      * @throws \InvalidArgumentException if the action name is invalid
      */
-    public function addResponder($actions, ResponderInterface $responder, array $data = null)
+    public function addResponder($actions, $responder, array $data = null)
     {
+        if (!$responder instanceof ResponderInterface && !is_callable($responder))
+            throw new \InvalidArgumentException('The $responder parameter must be either a ResponderInterface object or a callable');
+
         $actions = (array) $actions;
 
         foreach ($actions as $action) {

@@ -54,11 +54,11 @@ interface ObserverInterface
      * Assigns a responder to the given event action
      *
      * @param string|array $action The event action to assign the responder to
-     * @param \FlameCore\Observer\Responder\ResponderInterface $responder The responder to add
+     * @param \FlameCore\Observer\Responder\ResponderInterface|callable $responder The responder to add
      * @param array $data Optional data to store for all events of the given action(s)
      * @throws \InvalidArgumentException if the action name is invalid
      */
-    public function addResponder($actions, ResponderInterface $responder, array $data = null);
+    public function addResponder($actions, $responder, array $data = null);
 
     /**
      * Gets the value of the given data key
