@@ -1,6 +1,8 @@
 FlameCore Observer
 ==================
 
+[![Latest Stable](http://img.shields.io/packagist/v/FlameCore/Observer.svg)](https://packagist.org/packages/flamecore/observer)
+
 This library allows you to watch events and react to them.
 
 
